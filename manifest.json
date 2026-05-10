@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Reading Mode",
+  "version": "1.1.0",
+  "description": "AI-powered reading assistant — highlight text for instant AI explanations, save highlights, and read distraction-free.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://api.groq.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": [
+        "https://accounts.google.com/*",
+        "https://login.microsoftonline.com/*"
+      ],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "toggle-reading-mode": {
+      "suggested_key": { "default": "Ctrl+Shift+R" },
+      "description": "Toggle distraction-free reading mode"
+    },
+    "toggle-sidebar": {
+      "suggested_key": { "default": "Ctrl+Shift+S" },
+      "description": "Toggle AI sidebar"
+    }
+  }
+}
